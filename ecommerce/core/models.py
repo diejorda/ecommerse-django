@@ -5,6 +5,19 @@ from django.db import models
 from django.conf import settings
 # Create your models here.
 
+## create categories of items
+CATEGORY_CHOICES=(
+    ('S','Shirt'),
+    ('SW','Sport wear'),
+    ('OW', 'Out wear')
+)
+LABEL_CHOICES=(
+    ('p','primary'),
+    ('s','secondary'),
+    ('d', 'danger')
+)
+
+
 ### all items
 class Item(models.Model):
     title= models.CharField(max_length=100)
