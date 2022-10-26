@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 from email.policy import default
 from tkinter import CASCADE
 from turtle import title
@@ -22,6 +23,7 @@ LABEL_CHOICES=(
 class Item(models.Model):
     title= models.CharField(max_length=100)
     price= models.FloatField()
+    img= models.ImageField(upload_to='items_img' ,default='imageNotFound.png')
     description= models.TextField()
     
 
