@@ -13,9 +13,9 @@ CATEGORY_CHOICES=(
     ('OW', 'Out wear')
 )
 LABEL_CHOICES=(
-    ('p','primary'),
-    ('s','secondary'),
-    ('d', 'danger')
+    ('primary-color', 'p',),
+    ('secondary-color', 's',),
+    ( 'danger-color', 'd',)
 )
 
 
@@ -25,6 +25,8 @@ class Item(models.Model):
     price= models.FloatField()
     img= models.ImageField(upload_to='items_img' ,default='imageNotFound.png')
     description= models.TextField()
+    category=models.CharField(choices=CATEGORY_CHOICES, max_length=2, default='S')
+    label=models.CharField(choices=LABEL_CHOICES, max_length=15, default='primary-color')
     
 
     def __str__(self):
