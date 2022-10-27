@@ -1,7 +1,12 @@
+
 from unicodedata import category
 from django.shortcuts import render, redirect
-from .models import Item
+from .models import Item, CUser
 from django.db.models import Q
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib import auth
+
 
 
 # Create your views here.
@@ -44,6 +49,44 @@ def search(request):
     else:
         return redirect('index')
 
+
+def signup(request):
+    if request.method == 'POST':
+        password=request.POST['pass1']
+        password2=request.POST['pass2']
+        username=request.POST['username']
+        email=request.POST['email']
+        
+        
+        if password != password2:
+            messages.info(request, 'passwords dont match')
+            return redirect('signup')
+
+        elif User.objects.filter(username=username).exists():
+            messages.info(request, 'Username Taken')
+            return redirect('signup')
+        
+        elif User.objects.filter(email=email).exists():
+            messages.info(request, 'Email Taken')
+            return redirect('signup')
+        
+        else:
+            user= User.objects.create_user(email=email,username=username,password=password)
+            user.save()
+            user_login= auth.authenticate(username=username, password=password)
+            auth.login(request,user_login)
+            
+            user_model= User.objects.get(username=username)
+            cuser=CUser.objects.create(user=user_model)
+            cuser.save()
+            return redirect('index')
+        
+    else:
+        return render(request,'signup.html',{})
+
+    
+def login(request):
+    return redirect("index")
 
 
 def checkout(request):

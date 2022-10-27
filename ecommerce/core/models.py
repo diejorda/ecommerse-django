@@ -4,6 +4,7 @@ from tkinter import CASCADE
 from turtle import title
 from django.db import models
 from django.conf import settings
+from django.contrib.auth import get_user_model
 # Create your models here.
 
 ## create categories of items
@@ -27,6 +28,7 @@ class Item(models.Model):
     description= models.TextField()
     category=models.CharField(choices=CATEGORY_CHOICES, max_length=2, default='S')
     label=models.CharField(choices=LABEL_CHOICES, max_length=15, default='primary-color')
+    
     
 
     def __str__(self):
@@ -52,3 +54,18 @@ class Order(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+
+User_model= get_user_model()
+class CUser(models.Model):
+    user= models.ForeignKey(User_model, on_delete=models.CASCADE)
+    address= models.CharField(max_length=30, blank=True , null=True)
+    personal_id=models.IntegerField(blank=True, null=True)
+    country=models.CharField(blank=True, max_length=20, null=True)
+    state=models.CharField(blank=True, max_length=20, null=True)
+    zipcode=models.IntegerField(blank=True, null=True)
+
+
+    def __str__(self):
+        return self.user.username
+    
